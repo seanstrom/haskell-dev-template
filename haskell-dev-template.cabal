@@ -4,12 +4,24 @@ version:             0.1.0.0
 license:             ISC
 build-type:          Simple
 
+common shared-props
+  default-language:       Haskell2010
+  build-depends:          base >=4.13
+
 library hello-lib
-  hs-source-dirs: src
-  exposed-modules: Hello
-  build-depends: base >=4.13
+  import:                 shared-props
+  hs-source-dirs:         src
+  exposed-modules:        Hello
+
+test-suite hello-spec
+  import:               shared-props
+  type:                 exitcode-stdio-1.0
+  hs-source-dirs:       test
+  main-is:              HelloSpec.hs
+  build-depends:        hello-lib, hspec >=2.10
+
 
 executable hello
-  main-is:             src/Main.hs
-  build-depends:       hello-lib, base >=4.13
-  default-language:    Haskell2010
+  import:               shared-props
+  main-is:              src/Main.hs
+  build-depends:        hello-lib
